@@ -7,139 +7,129 @@ import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from "@/utils/constant";
 import { setSingleJob } from "@/redux/jobSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
+import Navbar from "./shared/Navbar";
 
 const JobDescription = () => {
-  const { singleJob } = useSelector((store) => store.job);
-  const { user } = useSelector((store) => store.auth);
+  const { singleJob } = useSelector((s) => s.job);
+  const { user } = useSelector((s) => s.auth);
   const dispatch = useDispatch();
   const { id: jobId } = useParams();
 
-  /* 🔑  Compute “applied?” straight from Redux data (always in‑sync) */
   const isApplied = useMemo(
     () =>
-      singleJob?.applications?.some(
-        (application) => application.applicant === user?._id
-      ) || false,
+      singleJob?.applications?.some((app) => app.applicant === user?._id) ||
+      false,
     [singleJob, user?._id]
   );
 
-  /* 📨  APPLY handler */
   const applyJobHandler = async () => {
+    if (isApplied) return;
     try {
       const res = await axios.get(
         `${APPLICATION_API_END_POINT}/apply/${jobId}`,
         { withCredentials: true }
       );
-
       if (res.data.success) {
-        /* redux me applications array update karo — UI auto‑refresh ho jayega */
-        const updatedJob = {
-          ...singleJob,
-          applications: [
-            ...singleJob.applications,
-            { applicant: user?._id } // minimum shape
-          ]
-        };
-        dispatch(setSingleJob(updatedJob));
+        dispatch(
+          setSingleJob({
+            ...singleJob,
+            applications: [
+              ...singleJob.applications,
+              { applicant: user?._id },
+            ],
+          })
+        );
         toast.success(res.data.message);
       }
-    } catch (error) {
-      console.error(error);
-      toast.error(error?.response?.data?.message || "Something went wrong");
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Something went wrong");
     }
   };
 
-  /* 📥  Fetch single job on mount / jobId change */
   useEffect(() => {
-    const fetchSingleJob = async () => {
+    (async () => {
       try {
-        const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
-          withCredentials: true
-        });
-        if (res.data.success) {
-          dispatch(setSingleJob(res.data.job));
-        }
-      } catch (error) {
-        console.error(error);
+        const { data } = await axios.get(
+          `${JOB_API_END_POINT}/get/${jobId}`,
+          { withCredentials: true }
+        );
+        if (data.success) dispatch(setSingleJob(data.job));
+      } catch (err) {
+        console.error(err);
       }
-    };
-    fetchSingleJob();
+    })();
   }, [jobId, dispatch]);
 
   return (
-    <div className="max-w-7xl mx-auto my-10">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-bold text-xl">{singleJob?.title}</h1>
+    <div className="min-h-screen  bg-gray-100 text-gray-900">
+      <Navbar />
 
-          <div className="flex items-center gap-2 mt-4">
-            <Badge className="text-blue-700 font-bold" variant="ghost">
-              {singleJob?.position} Positions
-            </Badge>
-            <Badge className="text-[#F83002] font-bold" variant="ghost">
-              {singleJob?.jobType}
-            </Badge>
-            <Badge className="text-[#7209b7] font-bold" variant="ghost">
-              {singleJob?.salary} LPA
-            </Badge>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* card */}
+        <div className="bg-gray-200  bg-gradient-to-br from-gray-600 via-gray-600 to-gray-700 b shadow-md border border-gray-300 p-8 rounded-2xl text-white">
+          {/* header */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold mb-3">
+                {singleJob?.title}
+              </h1>
+
+              <div className="flex flex-wrap gap-2">
+                <Badge className="bg-blue-100 text-blue-800">
+                  {singleJob?.position} Positions
+                </Badge>
+                <Badge className="bg-red-100 text-red-800">
+                  {singleJob?.jobType}
+                </Badge>
+                <Badge className="bg-purple-100 text-purple-800">
+                  {singleJob?.salary} LPA
+                </Badge>
+              </div>
+            </div>
+
+            <Button
+              onClick={applyJobHandler}
+              disabled={isApplied}
+              className={`w-full sm:w-auto px-6 py-3 rounded-lg transition-colors text-white ${
+                isApplied
+                  ? "bg-gray-400 cursor-not-allowed text-white"
+                  : "bg-purple-600 hover:bg-purple-700 text-white"
+              }`}
+            >
+              {isApplied ? "Already Applied" : "Apply Now"}
+            </Button>
+          </div>
+
+          {/* details */}
+          <div className="mt-10 space-y-4 leading-relaxed  text-white">
+            <DetailRow label="Role" value={singleJob?.title} />
+            <DetailRow label="Location" value={singleJob?.location} />
+            <DetailRow label="Description" value={singleJob?.description} />
+            <DetailRow
+              label="Experience"
+              value={`${singleJob?.experience} yrs`}
+            />
+            <DetailRow label="Salary" value={`${singleJob?.salary} LPA`} />
+            <DetailRow
+              label="Total Applicants"
+              value={singleJob?.applications?.length}
+            />
+            <DetailRow
+              label="Posted Date"
+              value={singleJob?.createdAt?.split("T")[0]}
+            />
           </div>
         </div>
-
-        <Button
-          onClick={isApplied ? undefined : applyJobHandler}
-          disabled={isApplied}
-          className={`rounded-lg ${
-            isApplied
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-[#7209b7] hover:bg-[#5f32ad]"
-          }`}
-        >
-          {isApplied ? "Already Applied" : "Apply Now"}
-        </Button>
-      </div>
-
-      <h1 className="border-b-2 border-b-gray-300 font-medium py-4">
-        Job Description
-      </h1>
-
-      <div className="my-4 space-y-1">
-        <p>
-          <span className="font-bold">Role:</span>{" "}
-          <span className="pl-4 text-gray-800">{singleJob?.title}</span>
-        </p>
-        <p>
-          <span className="font-bold">Location:</span>{" "}
-          <span className="pl-4 text-gray-800">{singleJob?.location}</span>
-        </p>
-        <p>
-          <span className="font-bold">Description:</span>{" "}
-          <span className="pl-4 text-gray-800">{singleJob?.description}</span>
-        </p>
-        <p>
-          <span className="font-bold">Experience:</span>{" "}
-          <span className="pl-4 text-gray-800">
-            {singleJob?.experience} yrs
-          </span>
-        </p>
-        <p>
-          <span className="font-bold">Salary:</span>{" "}
-          <span className="pl-4 text-gray-800">{singleJob?.salary} LPA</span>
-        </p>
-        <p>
-          <span className="font-bold">Total Applicants:</span>{" "}
-          <span className="pl-4 text-gray-800">
-            {singleJob?.applications?.length}
-          </span>
-        </p>
-        <p>
-          <span className="font-bold">Posted Date:</span>{" "}
-          <span className="pl-4 text-gray-800">
-            {singleJob?.createdAt?.split("T")[0]}
-          </span>
-        </p>
       </div>
     </div>
   );
 };
+
+const DetailRow = ({ label, value }) => (
+  <p>
+    <span className="font-semibold">{label}:</span>{" "}
+    <span className="pl-2">{value || "—"}</span>
+  </p>
+);
 
 export default JobDescription;

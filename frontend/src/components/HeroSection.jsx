@@ -16,32 +16,38 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="text-center">
-      <div className="flex flex-col gap-5 my-10">
-        <span className=" mx-auto px-4 py-2 rounded-full bg-gray-100 text-[#F83002] font-medium">
-          No. 1 Job Hunt Website
-        </span>
-        <h1 className="text-5xl font-bold">
-          Search, Apply & <br /> Get Your{" "}
-          <span className="text-[#6A38C2]">Dream Jobs</span>
+    <div className="bg-gradient-to-br from-[#f5f3ff] via-[#f0e9ff] to-[#ece2ff] py-20 sm:py-24 md:py-28 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto text-center space-y-6 sm:space-y-8">
+        {/* Badge */}
+        <div className="inline-block px-4 sm:px-5 py-2 rounded-full bg-white/60 backdrop-blur-md text-[#F83002] font-semibold text-sm sm:text-base shadow-md">
+          🚀 No. 1 Job Hunt Platform
+        </div>
+
+        {/* Heading */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-snug tracking-tight text-gray-800">
+          Search, Apply &<br className="hidden sm:block" />
+          Get Your<span className="text-[#6A38C2]"> Dream Jobs</span>
         </h1>
-        <p className="text-lg md:text-2xl font-semibold text-gray-500 max-w-2xl mx-auto text-center tracking-wide leading-relaxed">
-          Your future begins here — connect with top employers and apply in just
-          a few clicks.
+
+        {/* Subtitle */}
+        <p className="text-gray-600 text-base sm:text-lg md:text-xl font-medium max-w-2xl mx-auto">
+         Your future begins here — connect with top employers and apply in just a few clicks.
         </p>
-        <div className="flex w-[40%] shadow-lg border border-gray-200 pl-3 rounded-full items-center gap-4 mx-auto">
+
+        {/* Search Box - Slightly Smaller */}
+        <div className="flex items-center max-w-xl mx-auto bg-white rounded-full shadow-lg overflow-hidden border border-gray-200 w-full h-12">
           <input
             type="text"
-            placeholder="Find your dream jobs"
+            placeholder="Search by job title or company..."
             onChange={(e) => setQuery(e.target.value)}
-            className="outline-none border-none w-full"
+            className="flex-grow px-4 h-full text-sm outline-none bg-transparent placeholder:text-gray-400"
           />
-          <Button
+          <button
             onClick={searchJobHandler}
-            className="rounded-r-full bg-[#6A38C2]"
+            className="h-full px-5 bg-[#6A38C2] text-white hover:bg-[#211b2e] transition-colors rounded-r-full flex items-center justify-center"
           >
             <Search className="h-5 w-5" />
-          </Button>
+          </button>
         </div>
       </div>
     </div>
