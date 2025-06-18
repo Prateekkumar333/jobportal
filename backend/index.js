@@ -1,7 +1,10 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import dotenv from 'dotenv';
+
 import connectDB from './utils/db.js';
 import userRoute from './routes/user.route.js';
 import companyRoute from './routes/company.route.js';
@@ -11,15 +14,15 @@ import multer from 'multer';
 import path from 'path';
 
 // Load environment variables
-dotenv.config();
+
 
 // Validate critical environment variables
 const requiredEnvVars = [
   'PORT',
   'MONGODB_URI',
-  'CLOUDINARY_CLOUD_NAME',
-  'CLOUDINARY_API_KEY',
-  'CLOUDINARY_API_SECRET',
+  'CLOUD_NAME',
+  'API_KEY',
+  'API_SECRET',
   'SECRET_KEY',
 ];
 const missingEnvVars = requiredEnvVars.filter((varName) => !process.env[varName]);
@@ -29,13 +32,12 @@ if (missingEnvVars.length > 0) {
 }
 
 const app = express();
+app.set("trust proxy", 1);
 const PORT = process.env.PORT || 8000;
 
 const __dirname = path.resolve();
 
 // Configure Multer
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 
 // Middleware
 app.use(express.json());

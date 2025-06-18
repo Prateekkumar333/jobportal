@@ -7,9 +7,9 @@ import cloudinary from "../utils/cloudinary.js";
 
 /* ---------- helper: upload to Cloudinary if file present ---------- */
 const maybeUploadToCloudinary = async (file) => {
-  if (!file) return undefined;          // skip when no file
+  if (!file) return undefined; // skip when no file
   const fileUri = getDataUri(file);
-  if (!fileUri) return undefined;       // sanity
+  if (!fileUri) return undefined; // sanity
   const { secure_url } = await cloudinary.uploader.upload(fileUri.content);
   return secure_url;
 };
@@ -20,11 +20,15 @@ export const register = async (req, res) => {
     const { fullname, email, phoneNumber, password, role } = req.body;
 
     if (!fullname || !email || !phoneNumber || !password || !role) {
-      return res.status(400).json({ message: "All fields are required", success: false });
+      return res
+        .status(400)
+        .json({ message: "All fields are required", success: false });
     }
 
     if (await User.findOne({ email })) {
-      return res.status(400).json({ message: "Email already registered", success: false });
+      return res
+        .status(400)
+        .json({ message: "Email already registered", success: false });
     }
 
     const profilePhotoUrl = await maybeUploadToCloudinary(req.file);
@@ -39,7 +43,9 @@ export const register = async (req, res) => {
       profile: { profilePhoto: profilePhotoUrl },
     });
 
-    return res.status(201).json({ message: "Account created successfully.", success: true });
+    return res
+      .status(201)
+      .json({ message: "Account created successfully.", success: true });
   } catch (error) {
     console.error("Register error:", error);
     return res.status(500).json({ message: "Server error", success: false });
@@ -52,15 +58,25 @@ export const login = async (req, res) => {
     const { email, password, role } = req.body;
 
     if (!email || !password || !role) {
-      return res.status(400).json({ message: "All fields are required", success: false });
+      return res
+        .status(400)
+        .json({ message: "All fields are required", success: false });
     }
 
     const user = await User.findOne({ email });
-    if (!user || !(await bcrypt.compare(password, user.password)) || role !== user.role) {
-      return res.status(400).json({ message: "Invalid credentials", success: false });
+    if (
+      !user ||
+      !(await bcrypt.compare(password, user.password)) ||
+      role !== user.role
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Invalid credentials", success: false });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, { expiresIn: "1d" });
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
 
     /* sanitized user object */
     const safeUser = {
@@ -74,8 +90,17 @@ export const login = async (req, res) => {
 
     return res
       .status(200)
-      .cookie("token", token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "strict" })
-      .json({ message: `Welcome back ${user.fullname}`, user: safeUser, success: true });
+      .cookie("token", token, {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
+      .json({
+        message: `Welcome back ${user.fullname}`,
+        user: safeUser,
+        success: true,
+      });
   } catch (error) {
     console.error("Login error:", error);
     return res.status(500).json({ message: "Server error", success: false });
@@ -84,7 +109,10 @@ export const login = async (req, res) => {
 
 /* ---------- LOGOUT ---------- */
 export const logout = (req, res) =>
-  res.status(200).cookie("token", "", { maxAge: 0 }).json({ message: "Logged out", success: true });
+  res
+    .status(200)
+    .cookie("token", "", { maxAge: 0 })
+    .json({ message: "Logged out", success: true });
 
 /* ---------- UPDATE PROFILE ---------- */
 export const updateProfile = async (req, res) => {
@@ -92,7 +120,10 @@ export const updateProfile = async (req, res) => {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
     const user = await User.findById(req.id); // set by isAuthenticated middleware
 
-    if (!user) return res.status(404).json({ message: "User not found", success: false });
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "User not found", success: false });
 
     // optional file upload
     const resumeUrl = await maybeUploadToCloudinary(req.file);
@@ -109,7 +140,9 @@ export const updateProfile = async (req, res) => {
 
     await user.save();
 
-    return res.status(200).json({ message: "Profile updated", user, success: true });
+    return res
+      .status(200)
+      .json({ message: "Profile updated", user, success: true });
   } catch (error) {
     console.error("Profile update error:", error);
     return res.status(500).json({ message: "Server error", success: false });
