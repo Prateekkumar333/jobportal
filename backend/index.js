@@ -42,7 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const corsOptions = {
-  origin: "https://jobportal-h6e5.onrender.com/",
+  origin: "https://jobportal-h6e5.onrender.com",
   credentials: true,
 };
 app.use(cors(corsOptions));

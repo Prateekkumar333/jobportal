@@ -18,34 +18,42 @@ const Signup = () => {
     phoneNumber: "",
     password: "",
     role: "",
-    file: null,
+    file: null, // profile image
   });
+
   const { loading, user } = useSelector((s) => s.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  /* ---------- handlers ---------- */
+  /* ——— handlers ——— */
   const changeEventHandler = (e) =>
     setInput({ ...input, [e.target.name]: e.target.value });
 
   const changeFileHandler = (e) =>
-    setInput({ ...input, file: e.target.files?.[0] });
+    setInput({ ...input, file: e.target.files?.[0] ?? null });
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    /* build FormData, skip empty keys */
     const formData = new FormData();
     Object.entries(input).forEach(([key, val]) => {
-      if (val) formData.append(key, val);
+      if (val !== "" && val !== null) formData.append(key, val);
     });
 
     try {
       dispatch(setLoading(true));
-      const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        withCredentials: true,
-      });
-      if (res.data.success) {
-        toast.success(res.data.message);
+      const { data } = await axios.post(
+        `${USER_API_END_POINT}/register`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
+
+      if (data.success) {
+        toast.success(data.message);
         navigate("/login");
       }
     } catch (err) {
@@ -55,17 +63,16 @@ const Signup = () => {
     }
   };
 
-  /* ---------- redirect if logged‑in ---------- */
+  /* redirect if already logged‑in */
   useEffect(() => {
     if (user) navigate("/");
   }, [user, navigate]);
 
-  /* ---------- ui ---------- */
+  /* ——— ui ——— */
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#faf8ff] via-[#f2ecff] to-[#ebe3ff]">
       <Navbar />
 
-      {/* Centered form card */}
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <form
           onSubmit={submitHandler}
@@ -79,9 +86,9 @@ const Signup = () => {
             <Input
               name="fullname"
               placeholder="John Doe"
-              className="placeholder:text-gray-400"
               value={input.fullname}
               onChange={changeEventHandler}
+              className="placeholder:text-gray-400"
             />
           </div>
 
@@ -92,9 +99,9 @@ const Signup = () => {
               type="email"
               name="email"
               placeholder="john@example.com"
-              className="placeholder:text-gray-400"
               value={input.email}
               onChange={changeEventHandler}
+              className="placeholder:text-gray-400"
             />
           </div>
 
@@ -104,9 +111,9 @@ const Signup = () => {
             <Input
               name="phoneNumber"
               placeholder="8080808080"
-              className="placeholder:text-gray-400"
               value={input.phoneNumber}
               onChange={changeEventHandler}
+              className="placeholder:text-gray-400"
             />
           </div>
 
@@ -117,15 +124,15 @@ const Signup = () => {
               type="password"
               name="password"
               placeholder="•••••••"
-              className="placeholder:text-gray-400"
               value={input.password}
               onChange={changeEventHandler}
+              className="placeholder:text-gray-400"
             />
           </div>
 
-          {/* Role + Profile */}
+          {/* Role + File Upload */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            {/* Role radios */}
+            {/* Role */}
             <div className="flex items-center gap-6">
               {["student", "recruiter"].map((role) => (
                 <label key={role} className="flex items-center gap-2 cursor-pointer">
@@ -141,11 +148,12 @@ const Signup = () => {
               ))}
             </div>
 
-            {/* File upload */}
+            {/* Profile image */}
             <div className="flex items-center gap-2">
               <Label className="text-gray-700">Profile</Label>
               <Input
                 type="file"
+                name="file"                  /* <- MUST match Multer’s field */
                 accept="image/*"
                 onChange={changeFileHandler}
                 className="cursor-pointer"
