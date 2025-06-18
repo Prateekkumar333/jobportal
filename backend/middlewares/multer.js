@@ -1,13 +1,3 @@
 import multer from "multer";
-
 const storage = multer.memoryStorage();
-
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "application/pdf") {
-    cb(null, true);
-  } else {
-    cb(new Error("Only PDF files are allowed!"), false);
-  }
-};
-
-export const singleUpload = multer({ storage, fileFilter }).single("file");
+export const singleUpload = multer({ storage }).single("file");

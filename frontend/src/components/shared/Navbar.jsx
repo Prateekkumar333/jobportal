@@ -42,15 +42,17 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex h-full items-center">
+        <div className="hidden lg:flex flex-1 justify-end items-center">
           <ul className="flex gap-10 font-semibold text-[1.2rem] text-gray-800">
             {user?.role === "recruiter" ? (
               <>
-                <li className="hover:text-[#6A38C2] transition-all">
+                <li className="hover:text-[#6A38C2] relative group transition-all">
                   <Link to="/admin/companies">Companies</Link>
+                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-[#6A38C2] via-[#F83002] to-[#6A38C2] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
                 </li>
-                <li className="hover:text-[#6A38C2] transition-all">
+                <li className="hover:text-[#6A38C2] relative group transition-all">
                   <Link to="/admin/jobs">Jobs</Link>
+                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-gradient-to-r from-[#6A38C2] via-[#F83002] to-[#6A38C2] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
                 </li>
               </>
             ) : (
@@ -72,8 +74,8 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Desktop Avatar / Buttons */}
-        <div className="hidden lg:flex items-center gap-4">
+        {/* Avatar & Auth Buttons */}
+        <div className="hidden lg:flex items-center gap-4 ml-8">
           {!user ? (
             <>
               <Link to="/login">
@@ -145,7 +147,7 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Toggle Button */}
+        {/* Mobile Hamburger */}
         <div className="lg:hidden">
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -153,7 +155,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Nav */}
       {mobileMenuOpen && (
         <div className="lg:hidden px-6 pb-4 space-y-4">
           <ul className="flex flex-col gap-3 font-semibold text-gray-700">

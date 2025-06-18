@@ -3,7 +3,14 @@ import Navbar from "../shared/Navbar";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { JOB_API_END_POINT } from "@/utils/constant";
@@ -15,7 +22,6 @@ const PostJob = () => {
   const { companies } = useSelector((s) => s.company);
   const navigate = useNavigate();
 
-  /* ---------------- form state ---------------- */
   const [input, setInput] = useState({
     title: "",
     description: "",
@@ -27,6 +33,7 @@ const PostJob = () => {
     position: 0,
     companyId: "",
   });
+
   const [loading, setLoading] = useState(false);
 
   const changeEventHandler = (e) =>
@@ -37,7 +44,6 @@ const PostJob = () => {
     setInput({ ...input, companyId: company?._id || "" });
   };
 
-  /* ---------------- submit ---------------- */
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -57,7 +63,6 @@ const PostJob = () => {
     }
   };
 
-  /* ---------------- ui ---------------- */
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#faf8ff] via-[#f2ecff] to-[#ebe3ff]">
       <Navbar />
@@ -87,6 +92,7 @@ const PostJob = () => {
                   placeholder={field.placeholder}
                   value={input[field.name]}
                   onChange={changeEventHandler}
+                  className="bg-gray-50 border border-gray-300 placeholder:text-gray-400 focus:ring-[#6A38C2] focus:border-[#6A38C2] text-sm"
                 />
               </div>
             ))}
@@ -99,6 +105,7 @@ const PostJob = () => {
                 name="position"
                 value={input.position}
                 onChange={changeEventHandler}
+                className="bg-gray-50 border border-gray-300 placeholder:text-gray-400 focus:ring-[#6A38C2] focus:border-[#6A38C2] text-sm"
               />
             </div>
 
@@ -107,13 +114,17 @@ const PostJob = () => {
               <Label className="text-gray-700">Company</Label>
               {companies.length > 0 ? (
                 <Select onValueChange={selectChangeHandler}>
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full bg-gray-50 border border-gray-300 rounded-md px-3 py-2 shadow-sm text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6A38C2] focus:border-transparent">
                     <SelectValue placeholder="Select a company" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-md">
                     <SelectGroup>
                       {companies.map((c) => (
-                        <SelectItem key={c._id} value={c.name.toLowerCase()}>
+                        <SelectItem
+                          key={c._id}
+                          value={c.name.toLowerCase()}
+                          className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-100 focus:bg-[#f1e7ff] focus:text-[#6A38C2] rounded-sm"
+                        >
                           {c.name}
                         </SelectItem>
                       ))}
@@ -128,7 +139,7 @@ const PostJob = () => {
             </div>
           </div>
 
-          {/* Submit */}
+          {/* Submit Button */}
           {loading ? (
             <Button className="w-full">
               <Loader2 className="mr-2 w-4 h-4 animate-spin" />
