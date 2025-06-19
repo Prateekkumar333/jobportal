@@ -1,4 +1,4 @@
-@config "../tailwind.config.js"; 
+@config "../tailwind.config.js";
 
 @tailwind base;
 @tailwind components;
@@ -16,9 +16,8 @@
 }
 
 @layer base {
-  *, ::before, ::after {
-         
+  *,
+  ::before,
+  ::after {
   }
-
-  
 }

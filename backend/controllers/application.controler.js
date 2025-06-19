@@ -71,6 +71,7 @@ export const getAppliedJobs = async (req, res) => {
     console.log(error);
   }
 };
+
 export const getApplicants = async (req, res) => {
   try {
     const jobId = req.params.id;
@@ -113,6 +114,7 @@ export const updateStatus = async (req, res) => {
         success: false,
       });
     }
+
     application.status = status.toLowerCase();
     await application.save();
 
