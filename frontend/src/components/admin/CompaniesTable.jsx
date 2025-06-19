@@ -19,7 +19,6 @@ const CompaniesTable = () => {
   const [filterCompany, setFilterCompany] = useState(companies);
   const navigate = useNavigate();
 
-  /* ---------------- filtering ---------------- */
   useEffect(() => {
     const text = searchCompanyByText?.toLowerCase() || "";
     const filtered = companies.filter((c) =>
@@ -28,7 +27,6 @@ const CompaniesTable = () => {
     setFilterCompany(filtered);
   }, [companies, searchCompanyByText]);
 
-  /* ---------------- table ---------------- */
   return (
     <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm bg-white">
       <Table className="min-w-full">
@@ -92,7 +90,9 @@ const CompaniesTable = () => {
                     <PopoverContent className="w-36 p-2 border rounded-lg shadow bg-white">
                       <div
                         role="button"
-                        onClick={() => navigate(`/admin/companies/${company._id}`)}
+                        onClick={() =>
+                          navigate(`/admin/companies/${company._id}`)
+                        }
                         className="flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100 text-sm text-gray-700"
                       >
                         <Edit2 className="w-4 h-4" />

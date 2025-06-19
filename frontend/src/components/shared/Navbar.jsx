@@ -34,14 +34,12 @@ const Navbar = () => {
   return (
     <div className="bg-gradient-to-r from-[#b9bfc5] via-[hsl(195,6%,86%)] to-[#aeb6be] border-b border-gray-200 shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between h-16">
-        {/* Logo */}
         <Link to="/">
           <h1 className="text-[2rem] font-extrabold bg-gradient-to-r from-[#6A38C2] via-[#F83002] to-[#6A38C2] bg-clip-text text-transparent">
             JobPortal
           </h1>
         </Link>
 
-        {/* Desktop Nav */}
         <div className="hidden lg:flex flex-1 justify-end items-center">
           <ul className="flex gap-10 font-semibold text-[1.2rem] text-gray-800">
             {user?.role === "recruiter" ? (
@@ -74,7 +72,6 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Avatar & Auth Buttons */}
         <div className="hidden lg:flex items-center gap-4 ml-8">
           {!user ? (
             <>
@@ -147,7 +144,6 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Hamburger */}
         <div className="lg:hidden">
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -155,7 +151,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Nav */}
       {mobileMenuOpen && (
         <div className="lg:hidden px-6 pb-4 space-y-4">
           <ul className="flex flex-col gap-3 font-semibold text-gray-700">

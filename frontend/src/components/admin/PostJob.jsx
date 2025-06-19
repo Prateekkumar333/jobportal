@@ -74,16 +74,39 @@ const PostJob = () => {
         >
           <h1 className="text-2xl font-bold text-gray-800">Post a New Job</h1>
 
-          {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
-              { label: "Title", name: "title", placeholder: "e.g. Frontend Dev" },
-              { label: "Description", name: "description", placeholder: "Short summary" },
-              { label: "Requirements", name: "requirements", placeholder: "Skills / stacks" },
+              {
+                label: "Title",
+                name: "title",
+                placeholder: "e.g. Frontend Dev",
+              },
+              {
+                label: "Description",
+                name: "description",
+                placeholder: "Short summary",
+              },
+              {
+                label: "Requirements",
+                name: "requirements",
+                placeholder: "Skills / stacks",
+              },
               { label: "Salary", name: "salary", placeholder: "₹ or $" },
-              { label: "Location", name: "location", placeholder: "City / Remote" },
-              { label: "Job Type", name: "jobType", placeholder: "Full‑time, Part‑time" },
-              { label: "Experience", name: "experience", placeholder: "2+ years" },
+              {
+                label: "Location",
+                name: "location",
+                placeholder: "City / Remote",
+              },
+              {
+                label: "Job Type",
+                name: "jobType",
+                placeholder: "Full‑time, Part‑time",
+              },
+              {
+                label: "Experience",
+                name: "experience",
+                placeholder: "2+ years",
+              },
             ].map((field) => (
               <div key={field.name} className="flex flex-col gap-2">
                 <Label className="text-gray-700">{field.label}</Label>
@@ -97,7 +120,6 @@ const PostJob = () => {
               </div>
             ))}
 
-            {/* Positions */}
             <div className="flex flex-col gap-2">
               <Label className="text-gray-700">No. of Positions</Label>
               <Input
@@ -109,7 +131,6 @@ const PostJob = () => {
               />
             </div>
 
-            {/* Company Select */}
             <div className="flex flex-col gap-2 sm:col-span-2">
               <Label className="text-gray-700">Company</Label>
               {companies.length > 0 ? (
@@ -139,7 +160,6 @@ const PostJob = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
           {loading ? (
             <Button className="w-full">
               <Loader2 className="mr-2 w-4 h-4 animate-spin" />

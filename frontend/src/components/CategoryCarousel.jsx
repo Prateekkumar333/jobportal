@@ -1,23 +1,23 @@
-import React from 'react';
+import React from "react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious
-} from './ui/carousel';
-import { Button } from './ui/button';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { setSearchedQuery } from '@/redux/jobSlice';
+  CarouselPrevious,
+} from "./ui/carousel";
+import { Button } from "./ui/button";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setSearchedQuery } from "@/redux/jobSlice";
 
 const category = [
-  'Frontend Developer',
-  'Backend Developer',
-  'Data Science',
-  'Graphic Designer',
-  'FullStack Developer',
-  'Web Designer'
+  "Frontend Developer",
+  "Backend Developer",
+  "Data Science",
+  "Graphic Designer",
+  "FullStack Developer",
+  "Web Designer",
 ];
 
 const CategoryCarousel = () => {
@@ -26,7 +26,7 @@ const CategoryCarousel = () => {
 
   const searchJobHandler = (query) => {
     dispatch(setSearchedQuery(query));
-    navigate('/browse');
+    navigate("/browse");
   };
 
   return (
@@ -36,7 +36,8 @@ const CategoryCarousel = () => {
           Explore by <span className="text-[#6A38C2]">Category</span>
         </h2>
         <p className="text-gray-600 text-base sm:text-lg max-w-xl mx-auto">
-          Discover jobs tailored to your skills and interests. Just tap a category!
+          Discover jobs tailored to your skills and interests. Just tap a
+          category!
         </p>
       </div>
 

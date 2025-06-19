@@ -18,14 +18,14 @@ const Signup = () => {
     phoneNumber: "",
     password: "",
     role: "",
-    file: null, // profile image
+    file: null, 
   });
 
   const { loading, user } = useSelector((s) => s.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  /* ——— handlers ——— */
+
   const changeEventHandler = (e) =>
     setInput({ ...input, [e.target.name]: e.target.value });
 
@@ -35,7 +35,6 @@ const Signup = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    /* build FormData, skip empty keys */
     const formData = new FormData();
     Object.entries(input).forEach(([key, val]) => {
       if (val !== "" && val !== null) formData.append(key, val);
@@ -63,12 +62,10 @@ const Signup = () => {
     }
   };
 
-  /* redirect if already logged‑in */
   useEffect(() => {
     if (user) navigate("/");
   }, [user, navigate]);
 
-  /* ——— ui ——— */
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#faf8ff] via-[#f2ecff] to-[#ebe3ff]">
       <Navbar />
@@ -80,7 +77,6 @@ const Signup = () => {
         >
           <h1 className="text-2xl font-bold text-gray-800">Sign Up</h1>
 
-          {/* Full Name */}
           <div className="flex flex-col gap-2">
             <Label className="text-gray-700">Full Name</Label>
             <Input
@@ -92,7 +88,6 @@ const Signup = () => {
             />
           </div>
 
-          {/* Email */}
           <div className="flex flex-col gap-2">
             <Label className="text-gray-700">Email</Label>
             <Input
@@ -105,7 +100,6 @@ const Signup = () => {
             />
           </div>
 
-          {/* Phone */}
           <div className="flex flex-col gap-2">
             <Label className="text-gray-700">Phone Number</Label>
             <Input
@@ -117,7 +111,6 @@ const Signup = () => {
             />
           </div>
 
-          {/* Password */}
           <div className="flex flex-col gap-2">
             <Label className="text-gray-700">Password</Label>
             <Input
@@ -130,9 +123,8 @@ const Signup = () => {
             />
           </div>
 
-          {/* Role + File Upload */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            {/* Role */}
+
             <div className="flex items-center gap-6">
               {["student", "recruiter"].map((role) => (
                 <label key={role} className="flex items-center gap-2 cursor-pointer">
@@ -148,12 +140,11 @@ const Signup = () => {
               ))}
             </div>
 
-            {/* Profile image */}
             <div className="flex items-center gap-2">
               <Label className="text-gray-700">Profile</Label>
               <Input
                 type="file"
-                name="file"                  /* <- MUST match Multer’s field */
+                name="file"
                 accept="image/*"
                 onChange={changeFileHandler}
                 className="cursor-pointer"
@@ -161,7 +152,6 @@ const Signup = () => {
             </div>
           </div>
 
-          {/* Submit */}
           {loading ? (
             <Button className="w-full">
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

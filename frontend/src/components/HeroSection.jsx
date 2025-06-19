@@ -18,23 +18,20 @@ const HeroSection = () => {
   return (
     <div className="bg-gradient-to-br from-[#f5f3ff] via-[#f0e9ff] to-[#ece2ff] py-20 sm:py-24 md:py-28 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto text-center space-y-6 sm:space-y-8">
-        {/* Badge */}
         <div className="inline-block px-4 sm:px-5 py-2 rounded-full bg-white/60 backdrop-blur-md text-[#F83002] font-semibold text-sm sm:text-base shadow-md">
           🚀 No. 1 Job Hunt Platform
         </div>
 
-        {/* Heading */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-snug tracking-tight text-gray-800">
           Search, Apply &<br className="hidden sm:block" />
           Get Your<span className="text-[#6A38C2]"> Dream Jobs</span>
         </h1>
 
-        {/* Subtitle */}
         <p className="text-gray-600 text-base sm:text-lg md:text-xl font-medium max-w-2xl mx-auto">
-         Your future begins here — connect with top employers and apply in just a few clicks.
+          Your future begins here — connect with top employers and apply in just
+          a few clicks.
         </p>
 
-        {/* Search Box - Slightly Smaller */}
         <div className="flex items-center max-w-xl mx-auto bg-white rounded-full shadow-lg overflow-hidden border border-gray-200 w-full h-12">
           <input
             type="text"

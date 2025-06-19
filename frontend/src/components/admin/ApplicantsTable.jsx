@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Table,
   TableBody,
@@ -7,15 +7,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/table';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { MoreHorizontal } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import { toast } from 'sonner';
-import { APPLICATION_API_END_POINT } from '@/utils/constant';
-import axios from 'axios';
+} from "../ui/table";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { MoreHorizontal } from "lucide-react";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
+import { APPLICATION_API_END_POINT } from "@/utils/constant";
+import axios from "axios";
 
-const shortlistingStatus = ['Accepted', 'Rejected'];
+const shortlistingStatus = ["Accepted", "Rejected"];
 
 const ApplicantsTable = () => {
   const { applicants } = useSelector((store) => store.application);
@@ -31,7 +31,7 @@ const ApplicantsTable = () => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || 'Error occurred');
+      toast.error(error?.response?.data?.message || "Error occurred");
     }
   };
 
@@ -78,13 +78,13 @@ const ApplicantsTable = () => {
                 className="hover:bg-[#faf8ff] transition duration-150"
               >
                 <TableCell className="text-sm text-gray-800">
-                  {item?.applicant?.fullname || '—'}
+                  {item?.applicant?.fullname || "—"}
                 </TableCell>
                 <TableCell className="text-sm text-gray-800">
-                  {item?.applicant?.email || '—'}
+                  {item?.applicant?.email || "—"}
                 </TableCell>
                 <TableCell className="text-sm text-gray-800">
-                  {item?.applicant?.phoneNumber || '—'}
+                  {item?.applicant?.phoneNumber || "—"}
                 </TableCell>
                 <TableCell className="text-sm">
                   {item?.applicant?.profile?.resume ? (
@@ -101,7 +101,7 @@ const ApplicantsTable = () => {
                   )}
                 </TableCell>
                 <TableCell className="text-sm text-gray-600">
-                  {item?.applicant?.createdAt?.split('T')[0] || '—'}
+                  {item?.applicant?.createdAt?.split("T")[0] || "—"}
                 </TableCell>
                 <TableCell className="text-right">
                   <Popover>

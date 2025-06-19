@@ -23,7 +23,6 @@ const Companies = () => {
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <Input
             className="max-w-sm bg-white shadow-sm border border-gray-300 rounded-md"
@@ -37,8 +36,6 @@ const Companies = () => {
             New Company
           </Button>
         </div>
-
-        {/* Table Section */}
         <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
           <CompaniesTable />
         </div>

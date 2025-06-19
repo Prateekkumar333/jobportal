@@ -33,10 +33,7 @@ const JobDescription = () => {
         dispatch(
           setSingleJob({
             ...singleJob,
-            applications: [
-              ...singleJob.applications,
-              { applicant: user?._id },
-            ],
+            applications: [...singleJob.applications, { applicant: user?._id }],
           })
         );
         toast.success(res.data.message);
@@ -49,10 +46,9 @@ const JobDescription = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(
-          `${JOB_API_END_POINT}/get/${jobId}`,
-          { withCredentials: true }
-        );
+        const { data } = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
+          withCredentials: true,
+        });
         if (data.success) dispatch(setSingleJob(data.job));
       } catch (err) {
         console.error(err);
@@ -65,9 +61,7 @@ const JobDescription = () => {
       <Navbar />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* card */}
         <div className="bg-gray-200  bg-gradient-to-br from-gray-600 via-gray-600 to-gray-700 b shadow-md border border-gray-300 p-8 rounded-2xl text-white">
-          {/* header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold mb-3">
@@ -100,7 +94,6 @@ const JobDescription = () => {
             </Button>
           </div>
 
-          {/* details */}
           <div className="mt-10 space-y-4 leading-relaxed  text-white">
             <DetailRow label="Role" value={singleJob?.title} />
             <DetailRow label="Location" value={singleJob?.location} />

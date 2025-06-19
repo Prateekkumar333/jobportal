@@ -1,35 +1,21 @@
-/* ------------------------------------------------------------------
-   0.  Make sure Tailwind reads the config *first*  (NEW!)
-   ---------------------------------------------------------------- */
-
-@config "../tailwind.config.js";   /* <= adjust path if config is higher */
+@config "../tailwind.config.js"; 
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ------------------------------------------------------------------
-   1.  Design tokens (unchanged)
-   ---------------------------------------------------------------- */
 @layer base {
   :root {
-    /* ... your --background, --foreground, --border, etc. ... */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-    /* (rest of tokens omitted for brevity) */
     --border: 214.3 31.8% 91.4%;
   }
 
   .dark {
-    /* ...dark‑mode overrides... */
   }
 }
 
-/* ------------------------------------------------------------------
-   2.  Global element reset  (CHANGED!)
-   ---------------------------------------------------------------- */
 @layer base {
-  /* ❶  give everything a 1‑px border, but set colour manually */
   *, ::before, ::after {
          
   }

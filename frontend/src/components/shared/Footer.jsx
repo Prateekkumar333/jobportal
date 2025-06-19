@@ -5,9 +5,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#1f1f2e] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* ---- TOP GRID ---- */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* About */}
           <div>
             <h2 className="text-2xl font-bold mb-3">About JobPortal</h2>
             <p className="text-sm leading-relaxed text-gray-300">
@@ -17,7 +15,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h2 className="text-xl font-semibold mb-3">Quick Links</h2>
             <ul className="space-y-2 text-sm text-gray-300">
@@ -36,7 +33,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
             <h2 className="text-xl font-semibold mb-3">Legal</h2>
             <ul className="space-y-2 text-sm text-gray-300">
@@ -55,7 +51,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Connect */}
           <div>
             <h2 className="text-xl font-semibold mb-3">Connect With Us</h2>
             <div className="flex flex-wrap gap-4 sm:gap-3">
@@ -108,9 +103,13 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* ---- BOTTOM NOTE ---- */}
         <div className="mt-10 text-center text-sm text-gray-500 border-t border-gray-700 pt-6">
-          © 2025 <span className="text-white font-medium">JobPortal</span>. Crafted with <span role="img" aria-label="love">❤️</span> to connect talent with opportunity.
+          © 2025 <span className="text-white font-medium">JobPortal</span>.
+          Crafted with{" "}
+          <span role="img" aria-label="love">
+            ❤️
+          </span>{" "}
+          to connect talent with opportunity.
         </div>
       </div>
     </footer>

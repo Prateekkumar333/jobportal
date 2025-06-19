@@ -5,16 +5,14 @@ import jwt from "jsonwebtoken";
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 
-/* ---------- helper: upload to Cloudinary if file present ---------- */
 const maybeUploadToCloudinary = async (file) => {
-  if (!file) return undefined; // skip when no file
+  if (!file) return undefined;
   const fileUri = getDataUri(file);
-  if (!fileUri) return undefined; // sanity
+  if (!fileUri) return undefined;
   const { secure_url } = await cloudinary.uploader.upload(fileUri.content);
   return secure_url;
 };
 
-/* ---------- REGISTER ---------- */
 export const register = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, password, role } = req.body;
@@ -52,7 +50,6 @@ export const register = async (req, res) => {
   }
 };
 
-/* ---------- LOGIN ---------- */
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
@@ -78,7 +75,6 @@ export const login = async (req, res) => {
       expiresIn: "1d",
     });
 
-    /* sanitized user object */
     const safeUser = {
       _id: user._id,
       fullname: user.fullname,
@@ -107,25 +103,22 @@ export const login = async (req, res) => {
   }
 };
 
-/* ---------- LOGOUT ---------- */
 export const logout = (req, res) =>
   res
     .status(200)
     .cookie("token", "", { maxAge: 0 })
     .json({ message: "Logged out", success: true });
 
-/* ---------- UPDATE PROFILE ---------- */
 export const updateProfile = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
-    const user = await User.findById(req.id); // set by isAuthenticated middleware
+    const user = await User.findById(req.id);
 
     if (!user)
       return res
         .status(404)
         .json({ message: "User not found", success: false });
 
-    // optional file upload
     const resumeUrl = await maybeUploadToCloudinary(req.file);
 
     if (fullname) user.fullname = fullname;

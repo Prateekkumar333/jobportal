@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
-import { Label } from './ui/label';
-import { useDispatch } from 'react-redux';
-import { setSearchedQuery } from '@/redux/jobSlice';
+import React, { useEffect, useState } from "react";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { Label } from "./ui/label";
+import { useDispatch } from "react-redux";
+import { setSearchedQuery } from "@/redux/jobSlice";
 
 const filterData = [
   {
-    fitlerType: 'Location',
-    array: ['Delhi NCR', 'Bangalore', 'Hyderabad', 'Pune', 'Mumbai'],
+    fitlerType: "Location",
+    array: ["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Mumbai"],
   },
   {
-    fitlerType: 'Industry',
-    array: ['Frontend Developer', 'Backend Developer', 'FullStack Developer'],
+    fitlerType: "Industry",
+    array: ["Frontend Developer", "Backend Developer", "FullStack Developer"],
   },
   {
-    fitlerType: 'Salary',
-    array: ['0-40k', '42-1lakh', '1lakh to 5lakh'],
+    fitlerType: "Salary",
+    array: ["0-40k", "42-1lakh", "1lakh to 5lakh"],
   },
 ];
 
 const FilterCard = () => {
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState("");
   const dispatch = useDispatch();
 
   const changeHandler = (value) => setSelectedValue(value);
@@ -31,10 +31,11 @@ const FilterCard = () => {
 
   return (
     <div className="w-full rounded-xl border border-gray-400 bg-gradient-to-br from-gray-600 via-gray-600 to-gray-700 p-4 shadow text-gray-200 md:p-5 lg:p-6">
-      <h1 className="mb-4 text-center text-lg font-semibold md:text-xl">🔍 Filter Jobs</h1>
+      <h1 className="mb-4 text-center text-lg font-semibold md:text-xl">
+        🔍 Filter Jobs
+      </h1>
       <hr className="mb-4 border-gray-500" />
 
-      {/* Radio Groups */}
       <RadioGroup
         value={selectedValue}
         onValueChange={changeHandler}

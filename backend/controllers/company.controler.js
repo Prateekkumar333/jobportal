@@ -2,7 +2,6 @@ import { Company } from "../models/company.model.js";
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 
-// Register Company
 export const registerCompany = async (req, res) => {
   try {
     const { companyName } = req.body;
@@ -10,7 +9,7 @@ export const registerCompany = async (req, res) => {
     if (!companyName) {
       return res.status(400).json({
         message: "Company name is required.",
-        success: false
+        success: false,
       });
     }
 
@@ -18,19 +17,19 @@ export const registerCompany = async (req, res) => {
     if (company) {
       return res.status(400).json({
         message: "You can't register the same company twice.",
-        success: false
+        success: false,
       });
     }
 
     company = await Company.create({
       name: companyName,
-      userId: req.id
+      userId: req.id,
     });
 
     return res.status(201).json({
       message: "Company registered successfully.",
       company,
-      success: true
+      success: true,
     });
   } catch (error) {
     console.log("registerCompany error:", error);
@@ -38,7 +37,6 @@ export const registerCompany = async (req, res) => {
   }
 };
 
-// Get Companies of Logged In User
 export const getCompany = async (req, res) => {
   try {
     const userId = req.id;
@@ -47,13 +45,13 @@ export const getCompany = async (req, res) => {
     if (!companies || companies.length === 0) {
       return res.status(404).json({
         message: "No companies found.",
-        success: false
+        success: false,
       });
     }
 
     return res.status(200).json({
       companies,
-      success: true
+      success: true,
     });
   } catch (error) {
     console.log("getCompany error:", error);
@@ -61,7 +59,6 @@ export const getCompany = async (req, res) => {
   }
 };
 
-// Get Company by ID
 export const getCompanyById = async (req, res) => {
   try {
     const companyId = req.params.id;
@@ -70,13 +67,13 @@ export const getCompanyById = async (req, res) => {
     if (!company) {
       return res.status(404).json({
         message: "Company not found.",
-        success: false
+        success: false,
       });
     }
 
     return res.status(200).json({
       company,
-      success: true
+      success: true,
     });
   } catch (error) {
     console.log("getCompanyById error:", error);
@@ -84,7 +81,6 @@ export const getCompanyById = async (req, res) => {
   }
 };
 
-// Update Company Info (file optional)
 export const updateCompany = async (req, res) => {
   try {
     const { name, description, website, location } = req.body;
@@ -95,25 +91,28 @@ export const updateCompany = async (req, res) => {
     if (website) updateData.website = website;
     if (location) updateData.location = location;
 
-    // Upload logo if file exists
     if (req.file) {
-      const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
       if (!allowedTypes.includes(req.file.mimetype)) {
         return res.status(400).json({
           message: "Only JPEG, PNG, GIF, or WEBP images are allowed.",
-          success: false
+          success: false,
         });
       }
 
       const fileUri = getDataUri(req.file);
       const cloudResp = await cloudinary.uploader.upload(fileUri.content, {
         folder: "jobportal/companies",
-        public_id: `logo_${Date.now()}`
+        public_id: `logo_${Date.now()}`,
       });
 
       updateData.logo = cloudResp.secure_url;
 
-      // Optional: Delete previous logo
       const prevCompany = await Company.findById(req.params.id).select("logo");
       if (prevCompany?.logo) {
         const publicId = prevCompany.logo.split("/").pop().split(".")[0];
@@ -124,7 +123,7 @@ export const updateCompany = async (req, res) => {
     if (Object.keys(updateData).length === 0) {
       return res.status(400).json({
         message: "No update fields provided.",
-        success: false
+        success: false,
       });
     }
 
@@ -137,14 +136,14 @@ export const updateCompany = async (req, res) => {
     if (!company) {
       return res.status(404).json({
         message: "Company not found or not authorized.",
-        success: false
+        success: false,
       });
     }
 
     return res.status(200).json({
       message: "Company information updated.",
       company,
-      success: true
+      success: true,
     });
   } catch (error) {
     console.log("updateCompany error:", error);

@@ -26,7 +26,6 @@ const CompanySetup = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  /* ---------- handlers ---------- */
   const changeEventHandler = (e) =>
     setInput({ ...input, [e.target.name]: e.target.value });
 
@@ -61,7 +60,6 @@ const CompanySetup = () => {
     }
   };
 
-  /* ---------- pre‑fill ---------- */
   useEffect(() => {
     setInput({
       name: singleCompany.name ?? "",
@@ -72,7 +70,6 @@ const CompanySetup = () => {
     });
   }, [singleCompany]);
 
-  /* ---------- ui ---------- */
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#faf8ff] via-[#f2ecff] to-[#ebe3ff]">
       <Navbar />
@@ -82,7 +79,6 @@ const CompanySetup = () => {
           onSubmit={submitHandler}
           className="bg-white rounded-xl shadow-lg border border-gray-200 p-8"
         >
-          {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8">
             <Button
               type="button"
@@ -96,7 +92,6 @@ const CompanySetup = () => {
             <h1 className="text-2xl font-bold text-gray-800">Company Setup</h1>
           </div>
 
-          {/* Grid inputs */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <Label className="text-gray-700">Company Name</Label>
@@ -144,11 +139,15 @@ const CompanySetup = () => {
 
             <div className="flex flex-col gap-2 sm:col-span-2">
               <Label className="text-gray-700">Logo</Label>
-              <Input type="file" accept="image/*" onChange={changeFileHandler} className="border border-gray-400" />
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={changeFileHandler}
+                className="border border-gray-400"
+              />
             </div>
           </div>
 
-          {/* Submit */}
           <div className="mt-8">
             {loading ? (
               <Button className="w-full">

@@ -44,7 +44,6 @@ const Login = () => {
     }
   };
 
-  /* redirect if already logged in */
   useEffect(() => {
     if (user) navigate("/");
   }, [user, navigate]);
@@ -53,7 +52,6 @@ const Login = () => {
     <div className="min-h-screen bg-gradient-to-br from-[#faf8ff] via-[#f2ecff] to-[#ebe3ff]">
       <Navbar />
 
-      {/* Centered card */}
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <form
           onSubmit={submitHandler}
@@ -61,7 +59,6 @@ const Login = () => {
         >
           <h1 className="text-2xl font-bold text-gray-800">Login</h1>
 
-          {/* Email */}
           <div className="flex flex-col gap-2">
             <Label className="text-gray-700">Email</Label>
             <Input
@@ -74,7 +71,6 @@ const Login = () => {
             />
           </div>
 
-          {/* Password */}
           <div className="flex flex-col gap-2">
             <Label className="text-gray-700">Password</Label>
             <Input
@@ -87,10 +83,12 @@ const Login = () => {
             />
           </div>
 
-          {/* Role selection */}
           <div className="flex items-center gap-6 text-gray-700">
             {["student", "recruiter"].map((role) => (
-              <label key={role} className="flex items-center gap-2 cursor-pointer">
+              <label
+                key={role}
+                className="flex items-center gap-2 cursor-pointer"
+              >
                 <Input
                   type="radio"
                   name="role"
@@ -102,8 +100,6 @@ const Login = () => {
               </label>
             ))}
           </div>
-
-          {/* Submit */}
           {loading ? (
             <Button className="w-full">
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
